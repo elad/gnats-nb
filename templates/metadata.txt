@@ -1,0 +1,8 @@
+### Metadata
+
+  * Number: <%=data.pr_number%>
+  * Arrived: <%=data.arrival_date%>
+  * Last modified: <%=data.last_modified%>
+  <% if (data.environment) { %>
+  * Environment: <%=data.environment%>
+  <% } %>

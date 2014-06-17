@@ -1,0 +1,27 @@
+{
+  "name": "gnats-nb",
+  "version": "0.0.0",
+  "description": "This tool depends on [elad/gnats](https://github.com/elad/gnats), so for now:",
+  "main": "convert.js",
+  "dependencies": {
+    "async": "^0.9.0",
+    "octonode": "^0.6.3",
+    "request": "^2.36.0",
+    "underscore": "^1.6.0",
+    "gnats": "elad/gnats"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elad/gnats-nb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elad/gnats-nb/issues"
+  },
+  "homepage": "https://github.com/elad/gnats-nb"
+}
