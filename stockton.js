@@ -23,9 +23,17 @@ function has_diff(s) {
 
 	for (var i = 0, _len = lines.length; i < _len; i++) {
 		var a = lines[i],
-		    b = lines[i + 1],
-		    idx = a.indexOf('---');
-		if (a && b && idx !== -1 && idx === b.indexOf('+++')) {
+		    b = lines[i + 1];
+		if (!a || !b) {
+			continue;
+		}
+
+		var idx = a.indexOf('--- ');
+		if (idx !== -1 && idx === b.indexOf('+++ ')) {
+			return true;
+		}
+		idx = a.indexOf('*** ');
+		if (idx !== -1 && idx === b.indexOf('--- ')) {
 			return true;
 		}
 	}
