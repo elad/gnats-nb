@@ -18,7 +18,8 @@ function random_pr_number() {
 
 // Convert a PR object to a GitHub issue.
 function pr_to_issue(pr) {
-	var labels = [pr.category, pr.severity, pr.priority, pr.class];
+	// The existing fields are not very helpful.
+	var labels = [/*pr.category, pr.severity, pr.priority, pr.class*/];
 
 	if (stockton.has_fix(pr.fix)) {
 		labels.push('has fix');
