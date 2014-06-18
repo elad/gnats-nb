@@ -124,10 +124,10 @@ exports.is_brief = is_brief;
 var exhausting_size = 4096;
 function is_exhausting(s) {
 	if (!s) {
-		return true;
+		return false;
 	}
 
-	return (s.length <= exhausting_size);
+	return (s.length >= exhausting_size);
 }
 exports.is_exhausting = is_exhausting;
 
