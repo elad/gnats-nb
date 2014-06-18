@@ -1,7 +1,7 @@
 ### Metadata
 
   * Number: [<%=data.pr_number%>](http://gnats.netbsd.org/<%=data.pr_number%>)
-  * Originator: <%=data.originator%>
+  * Originator: <%=data.originator%> <%=data.originator_email ? ('<' + data.originator_email + '>') : ''%>
   * Arrived: <%=data.arrival_date%>
   * Last modified: <%=data.last_modified%>
   <% if (data.environment) { %>

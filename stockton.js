@@ -145,14 +145,17 @@ _.extend(_.templateSettings, { variable: 'data' });
 var template_metadata = _.template(fs.readFileSync('templates/metadata.txt', { encoding: 'utf-8' })),
     template_raw = _.template(fs.readFileSync('templates/raw.txt', { encoding: 'utf-8' }));
 
-// TODO: This could use templates.
 function prettify(pr) {
 	var description = '';
+
+	// Get the email of the originator.
+	var from_header = _.find(pr.headers, function(header) { return header.indexOf('From: ') === 0; });
 
 	// Metadata (list).
 	var s = template_metadata({
 		pr_number: pr.number,
 		originator: pr.originator,
+		originator_email: from_header ? from_header.substring(from_header.indexOf(' ') + 1).replace('@', ' at ') : null,
 		arrival_date: pr.arrival_date,
 		last_modified: pr.last_modified,
 		environment: pr.environment.trim().replace(/\n/g, ' ')
