@@ -28,12 +28,29 @@ function has_diff(s) {
 			continue;
 		}
 
+		// *** a/file
+		// --- b/file
 		var idx = a.indexOf('--- ');
 		if (idx !== -1 && idx === b.indexOf('+++ ')) {
 			return true;
 		}
+
+		// *** a/file
+		// --- b/file
 		idx = a.indexOf('*** ');
 		if (idx !== -1 && idx === b.indexOf('--- ')) {
+			return true;
+		}
+
+		// < line a...
+		// ---
+		// > line b...
+		var c = lines[i + 2];
+		if (!c) {
+			continue;
+		}
+		idx = a.indexOf('<');
+		if (idx !== -1 && idx === b.indexOf('---') && idx === c.indexOf('>')) {
 			return true;
 		}
 	}
