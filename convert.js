@@ -23,7 +23,7 @@ function pr_to_issue(pr) {
 	if (stockton.has_fix(pr.fix)) {
 		labels.push('has fix');
 	}
-	if (stockton.has_diff(pr.description) || stockton.has_diff(pr.fix)) {
+	if (stockton.has_diff(pr.description) || stockton.has_diff(pr.fix) || stockton.has_diff(pr.audit_trail) || stockton.has_diff(pr.unformatted)) {
 		labels.push('has diff');
 	}
 	if (stockton.has_backtrace(pr.description) || stockton.has_backtrace(pr.fix)) {
@@ -32,7 +32,14 @@ function pr_to_issue(pr) {
 	if (stockton.has_panic(pr.description)) {
 		labels.push('panic');
 	}
-	if (labels.indexOf('panic') !== -1 && stockton.is_brief(pr.description) && stockton.is_brief(pr.fix)) {
+	if (stockton.has_build_failure(pr.description)) {
+		labels.push('has build failure');
+	}
+
+	// Low hanging fruit is a brief report that has a diff or has no panic and a brief fix.
+	if (stockton.is_brief(pr.description) &&
+	    (!stockton.is_exhausting(pr.audit_trail) && !stockton.is_exhausting(pr.unformatted) && !stockton.is_exhausting(pr.fix)) &&
+	    (labels.indexOf('has diff') !== -1 || (labels.indexOf('panic') === -1 && stockton.is_brief(pr.fix)))) {
 		labels.push('low hanging fruit');
 	}
 
@@ -50,14 +57,26 @@ var gh = github.client(config.github_token),
     ghrepo = gh.repo(config.github_repository);
 
 function main() {
-	var n = Number(process.argv[2]) || 1,
-	    dummy = false;
+	var pr_number,
+	    n,
+	    dummy = true;
+
+	if (process.argv[2] === 'random') {
+		n = Number(process.argv[2]) || 1;
+	} else {
+		n = 1;
+		pr_number = Number(process.argv[2]);
+		if (!pr_number || isNaN(pr_number)) {
+			console.log('please specify a PR number or \'random\'');
+			return;
+		}
+	}
 
 	async.times(n, function(i, callback) {
 		async.waterfall([
 			function(callback) {
-				// Get a random PR for us to work on.
-				var pr_number = random_pr_number();
+				// If we don't have a PR, get a random one for us to work on.
+				pr_number = pr_number || random_pr_number();
 				console.log('Fetching PR/' + pr_number + '...');
 				gnats.fetch(config.url + pr_number, callback);
 			},
@@ -67,7 +86,7 @@ function main() {
 				    issue = pr_to_issue(pr);
 
 				if (dummy) {
-					console.log(pr);
+					//console.log(pr);
 					console.log(issue);
 					return callback();
 				}

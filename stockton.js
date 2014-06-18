@@ -15,6 +15,10 @@ function remove_empty_lines(s) {
 
 // Detect if a string contains a diff.
 function has_diff(s) {
+	if (!s) {
+		return false;
+	}
+
 	lines = s.split('\n');
 
 	for (var i = 0, _len = lines.length; i < _len; i++) {
@@ -32,11 +36,16 @@ exports.has_diff = has_diff;
 
 // Detect if a fix is real.
 function has_fix(s) {
+	if (!s) {
+		return false;
+	}
+
 	var signs_this_is_not_a_real_fix = [
 		'n/a',
 		'unknown',
 		'no idea',
-		'no clue'
+		'no clue',
+		'don\'t know'
 	];
 	s = s.toLowerCase().trim();
 	if (!s) {
@@ -54,6 +63,10 @@ exports.has_fix = has_fix;
 
 // Detect if a string contains a backtrace.
 function has_backtrace(s) {
+	if (!s) {
+		return false;
+	}
+
 	var ddb_trace = /[A-Za-z0-9_]+\(.+ at [A-Za-z0-9_]+:[A-Za-z0-9_]+\+0x./,
 	    gdb_trace = /#[0-9]+ 0x[A-Fa-f0-9]+ in /;
 	return (s.indexOf('> bt') !== -1 || s.match(ddb_trace) || s.match(gdb_trace)) ? true : false;
@@ -62,19 +75,58 @@ exports.has_backtrace = has_backtrace;
 
 // Detect if a string contains a build failure.
 function has_build_failure(s) {
+	if (!s) {
+		return false;
+	}
+
+	var signs = [
+		'build fail',
+		'doesn\'t build',
+		'fails to build',
+		'make: stopped',
+		'*** Error code',
+		'ld: fatal'
+	];
+
 	s = s.toLowerCase();
-	return ((s.indexOf('build') !== -1 && s.indexOf('fail') !== -1) || s.indexOf('make: stopped') !== -1 || s.indexOf('*** Error code') !== -1);
+
+	for (var i = 0, _len = signs.length; i < _len; i++) {
+		if (s.indexOf(signs[i]) !== -1) {
+			return true;
+		}
+	}
+
+	return false;
 }
 exports.has_build_failure = has_build_failure;
 
 // Detect if a string is considered to be brief.
 var brief_size = 256;
 function is_brief(s) {
+	if (!s) {
+		return true;
+	}
+
 	return (s.length <= brief_size);
 }
 exports.is_brief = is_brief;
 
+// Detect if a string is considered to be exhausting.
+var exhausting_size = 4096;
+function is_exhausting(s) {
+	if (!s) {
+		return true;
+	}
+
+	return (s.length <= exhausting_size);
+}
+exports.is_exhausting = is_exhausting;
+
 function has_panic(s) {
+	if (!s) {
+		return false;
+	}
+
 	return (s.toLowerCase().indexOf('panic') !== -1) ? true : false;
 }
 exports.has_panic = has_panic;
