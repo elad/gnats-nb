@@ -152,6 +152,7 @@ function prettify(pr) {
 	// Metadata (list).
 	var s = template_metadata({
 		pr_number: pr.number,
+		originator: pr.originator,
 		arrival_date: pr.arrival_date,
 		last_modified: pr.last_modified,
 		environment: pr.environment.trim().replace(/\n/g, ' ')
