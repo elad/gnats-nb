@@ -170,7 +170,7 @@ function prettify(pr) {
 	    match = from_header.match(/\<(.+)\>/),
 	    originator_email = match ? match[1] : null;
 
-	if (originator_email.indexOf('@') === -1) {
+	if (originator_email && originator_email.indexOf('@') === -1) {
 		originator_email += '@netbsd.org';
 	}
 
