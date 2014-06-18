@@ -6,6 +6,9 @@ var fs = require('fs'),
     gnats = require('gnats'),
     stockton = require('./stockton');
 
+// Set this to false to actually add things to GitHub.
+var dummy = true
+
 var config = JSON.parse(fs.readFileSync('config.json', { encoding: 'ascii' }));
 
 // List of open PRs.
@@ -59,8 +62,7 @@ var gh = github.client(config.github_token),
 
 function main() {
 	var pr_number,
-	    n,
-	    dummy = true;
+	    n;
 
 	if (process.argv[2] === 'random') {
 		n = Number(process.argv[2]) || 1;
