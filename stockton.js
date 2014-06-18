@@ -53,7 +53,8 @@ function has_fix(s) {
 		'unknown',
 		'no idea',
 		'no clue',
-		'don\'t know'
+		'don\'t know',
+		'dunno'
 	];
 	s = s.toLowerCase().trim();
 	if (!s) {
