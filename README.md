@@ -24,6 +24,8 @@ Put the following in a `config.json` file:
 Then you can do
 
 ```
-$ node convert
+$ node convert <random or pr number>
 ```
+
+Assuming `dummy` is set to `false` in `convert.js`, a new issue will be created. Otherwise, it will be printed to the screen.
 
