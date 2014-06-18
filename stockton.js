@@ -166,13 +166,19 @@ function prettify(pr) {
 	var description = '';
 
 	// Get the email of the originator.
-	var from_header = _.find(pr.headers, function(header) { return header.indexOf('From: ') === 0; });
+	var from_header = _.find(pr.headers, function(header) { return header.indexOf('From: ') === 0; }),
+	    match = from_header.match(/\<(.+)\>/),
+	    originator_email = match ? match[1] : null;
+
+	if (originator_email.indexOf('@') === -1) {
+		originator_email += '@netbsd.org';
+	}
 
 	// Metadata (list).
 	var s = template_metadata({
 		pr_number: pr.number,
 		originator: pr.originator,
-		originator_email: from_header ? from_header.substring(from_header.indexOf(' ') + 1) : null,
+		originator_email: originator_email,
 		arrival_date: pr.arrival_date,
 		last_modified: pr.last_modified,
 		environment: pr.environment.trim().replace(/\n/g, ' ')
