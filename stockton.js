@@ -155,7 +155,7 @@ function prettify(pr) {
 	var s = template_metadata({
 		pr_number: pr.number,
 		originator: pr.originator,
-		originator_email: from_header ? from_header.substring(from_header.indexOf(' ') + 1).replace('@', ' at ') : null,
+		originator_email: from_header ? from_header.substring(from_header.indexOf(' ') + 1) : null,
 		arrival_date: pr.arrival_date,
 		last_modified: pr.last_modified,
 		environment: pr.environment.trim().replace(/\n/g, ' ')
