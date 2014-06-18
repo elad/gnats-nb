@@ -167,9 +167,8 @@ function prettify(pr) {
 
 	// Get the email of the originator.
 	var from_header = _.find(pr.headers, function(header) { return header.indexOf('From: ') === 0; }),
-	    match = from_header.match(/\<(.+)\>/),
-	    originator_email = match ? match[1] : null;
-
+	    match = from_header.substring(from_header.indexOf(' ') + 1).match(/([^@<]+@[^@>]+)|<([^>]+)>/);
+	    originator_email = match ? (match[1] || match[2]) : null;
 	if (originator_email && originator_email.indexOf('@') === -1) {
 		originator_email += '@netbsd.org';
 	}
