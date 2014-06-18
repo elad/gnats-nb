@@ -93,9 +93,9 @@ function has_backtrace(s) {
 		return false;
 	}
 
-	var ddb_trace = /[A-Za-z0-9_]+\(.+ at [A-Za-z0-9_]+:[A-Za-z0-9_]+\+0x./,
+	var ddb_trace = /[A-Za-z0-9_]+\(.+ at [A-Za-z0-9_]+(:[A-Za-z0-9_]+\+0x.)?/,
 	    gdb_trace = /#[0-9]+ 0x[A-Fa-f0-9]+ in /;
-	return (s.indexOf('> bt') !== -1 || s.match(ddb_trace) || s.match(gdb_trace)) ? true : false;
+	return (s.indexOf('> bt') !== -1 || s.indexOf('> trace') !== -1 || s.match(ddb_trace) || s.match(gdb_trace)) ? true : false;
 }
 exports.has_backtrace = has_backtrace;
 
