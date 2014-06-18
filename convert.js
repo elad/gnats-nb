@@ -7,7 +7,7 @@ var fs = require('fs'),
     stockton = require('./stockton');
 
 // Set this to false to actually add things to GitHub.
-var dummy = true
+var dummy = true;
 
 var config = JSON.parse(fs.readFileSync('config.json', { encoding: 'ascii' }));
 
